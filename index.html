@@ -121,11 +121,20 @@
 
 
     let currentIndex = null;
+    let lastIndex = null;
 
     function generateMessage() {
-      const index = Math.floor(Math.random() * messages.length);
-      currentIndex = index;
-      document.getElementById("message").textContent = messages[index].en;
+      if (messages.length === 1) {
+        currentIndex = 0;
+      } else {
+        let index;
+        do {
+          index = Math.floor(Math.random() * messages.length);
+        } while (index === lastIndex);
+        currentIndex = index;
+      }
+      lastIndex = currentIndex;
+      document.getElementById("message").textContent = messages[currentIndex].en;
     }
 
     function translateMessage() {
