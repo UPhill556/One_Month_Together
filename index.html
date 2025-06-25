@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Romantic Message Generator</title>
+  <style>
+    body {
+      background-color: #a2d5f2; /* azzurro pastello */
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #message {
+      font-size: 2em;
+      padding: 20px;
+      max-width: 80%;
+      margin: auto;
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      background-color: #a259f2; /* viola pastello come il cuore */
+      color: #fff;
+      border: 2px solid #fff;
+      padding: 15px 30px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    }
+
+    button:hover {
+      background-color: #c299fc;
+    }
+  </style>
+</head>
+<body>
+  <div id="message">Click "Generate" to receive a sweet message 💜</div>
+
+  <div class="buttons">
+    <button onclick="generateMessage()">Generate</button>
+    <button onclick="translateMessage()">Translate</button>
+  </div>
+
+  <script>
+    const messages = [
+      { en: "I love your smile. 💜", fr: "J'aime ton sourire. 💜" },
+      { en: "You are my favorite person. 💜", fr: "Tu es ma personne préférée. 💜" },
+      { en: "Every day with you is special. 💜", fr: "Chaque jour avec toi est spécial. 💜" },
+      { en: "You make my heart happy. 💜", fr: "Tu rends mon cœur heureux. 💜" },
+      { en: "I can't stop thinking about you. 💜", fr: "Je ne peux pas arrêter de penser à toi. 💜" },
+      { en: "You're all I need. 💜", fr: "Tu es tout ce dont j'ai besoin. 💜" },
+      { en: "You complete me. 💜", fr: "Tu me complètes. 💜" },
+      { en: "My heart belongs to you. 💜", fr: "Mon cœur t'appartient. 💜" },
+      { en: "You are my everything. 💜", fr: "Tu es tout pour moi. 💜" },
+      { en: "Your voice is my favorite sound. 💜", fr: "Ta voix est mon son préféré. 💜" },
+      { en: "You make me feel safe. 💜", fr: "Tu me fais sentir en sécurité. 💜" },
+      { en: "You are the reason I smile. 💜", fr: "Tu es la raison pour laquelle je souris. 💜" },
+      { en: "I love the way you look at me. 💜", fr: "J'aime la façon dont tu me regardes. 💜" },
+      { en: "You're my happy place. 💜", fr: "Tu es mon endroit heureux. 💜" },
+      { en: "You are my light in the dark. 💜", fr: "Tu es ma lumière dans le noir. 💜" },
+      { en: "I feel lucky to have you. 💜", fr: "Je me sens chanceux de t'avoir. 💜" },
+      { en: "You're my dream come true. 💜", fr: "Tu es mon rêve devenu réalité. 💜" },
+      { en: "You're the best part of my day. 💜", fr: "Tu es la meilleure partie de ma journée. 💜" },
+      { en: "I want to be with you forever. 💜", fr: "Je veux être avec toi pour toujours. 💜" },
+      { en: "You make my life better. 💜", fr: "Tu rends ma vie meilleure. 💜" },
+      { en: "I adore you. 💜", fr: "Je t'adore. 💜" },
+      { en: "You're the love of my life. 💜", fr: "Tu es l'amour de ma vie. 💜" },
+      { en: "You're so special to me. 💜", fr: "Tu es tellement spécial pour moi. 💜" },
+      { en: "I love being near you. 💜", fr: "J'aime être près de toi. 💜" },
+      { en: "You make me laugh like no one else. 💜", fr: "Tu me fais rire comme personne d'autre. 💜" },
+      { en: "You're my forever person. 💜", fr: "Tu es ma personne pour toujours. 💜" },
+      { en: "You are my favorite hello and hardest goodbye. 💜", fr: "Tu es mon bonjour préféré et mon au revoir le plus difficile. 💜" },
+      { en: "You bring light into my life. 💜", fr: "Tu apportes de la lumière dans ma vie. 💜" },
+      { en: "I miss you even when you're near. 💜", fr: "Tu me manques même quand tu es proche. 💜" },
+
+      { en: "You're everything I ever wanted. 💜", fr: "Tu es tout ce que j'ai toujours voulu. 💜" },
+      { en: "You make me believe in love. 💜", fr: "Tu me fais croire en l'amour. 💜" },
+      { en: "Being with you feels like home. 💜", fr: "Être avec toi, c'est comme être chez moi. 💜" },
+      { en: "I want to make you happy every day. 💜", fr: "Je veux te rendre heureux chaque jour. 💜" },
+      { en: "You're my one and only. 💜", fr: "Tu es mon unique. 💜" },
+      { en: "I'm proud to love you. 💜", fr: "Je suis fier de t'aimer. 💜" },
+      { en: "I love your laugh. 💜", fr: "J'aime ton rire. 💜" },
+      { en: "You're perfect to me. 💜", fr: "Tu es parfait pour moi. 💜" },
+      { en: "I'm yours, always. 💜", fr: "Je suis à toi, toujours. 💜" },
+      { en: "You're the reason my heart beats. 💜", fr: "Tu es la raison pour laquelle mon cœur bat. 💜" },
+      { en: "You and me, always. 💜", fr: "Toi et moi, toujours. 💜" },
+      { en: "You're my sweet escape. 💜", fr: "Tu es mon doux refuge. 💜" },
+      { en: "I love the way you love me. 💜", fr: "J'aime la façon dont tu m'aimes. 💜" },
+      { en: "You're the one I want to wake up next to. 💜", fr: "Tu es celui que je veux voir au réveil. 💜" },
+      { en: "You're my forever. 💜", fr: "Tu es mon pour toujours. 💜" },
+      { en: "Just thinking of you makes me smile. 💜", fr: "Penser à toi me fait sourire. 💜" },
+      { en: "You are precious to me. 💜", fr: "Tu es précieux pour moi. 💜" },
+      { en: "My heart is full of you. 💜", fr: "Mon cœur est rempli de toi. 💜" },
+      { en: "I love spending time with you. 💜", fr: "J'aime passer du temps avec toi. 💜" },
+      { en: "You're everything good in my life. 💜", fr: "Tu es tout ce qu'il y a de bon dans ma vie. 💜" },
+      { en: "You are my sunshine on a cloudy day. 💜", fr: "Tu es mon rayon de soleil par temps nuageux. 💜" },
+      { en: "With you, every moment is magical. 💜", fr: "Avec toi, chaque moment est magique. 💜" },
+      { en: "I fall in love with you more every day. 💜", fr: "Je tombe amoureux de toi un peu plus chaque jour. 💜" },
+      { en: "You make my world brighter. 💜", fr: "Tu rends mon monde plus lumineux. 💜" },
+      { en: "I cherish every memory with you. 💜", fr: "Je chéris chaque souvenir avec toi. 💜" },
+      { en: "You are my best friend and my love. 💜", fr: "Tu es mon meilleur ami et mon amour. 💜" },
+      { en: "My favorite place is next to you. 💜", fr: "Mon endroit préféré est à côté de toi. 💜" },
+      { en: "You are the sweetest part of my life. 💜", fr: "Tu es la partie la plus douce de ma vie. 💜" },
+      { en: "I love you more than words can say. 💜", fr: "Je t'aime plus que les mots ne peuvent le dire. 💜" },
+
+      { en: "You are my heart. 💜", fr: "Tu es mon cœur. 💜" },
+    ];
+
+    // Aggiungi messaggi ripetuti fino a 100 se non bastano
+    while (messages.length < 100) {
+      messages.push({
+        en: "You are my heart. 💜",
+        fr: "Tu es mon cœur. 💜"
+      });
+    }
+
+    let currentIndex = null;
+
+    function generateMessage() {
+      const index = Math.floor(Math.random() * messages.length);
+      currentIndex = index;
+      document.getElementById("message").textContent = messages[index].en;
+    }
+
+    function translateMessage() {
+      if (currentIndex !== null) {
+        document.getElementById("message").textContent = messages[currentIndex].fr;
+      }
+    }
+  </script>
+</body>
+</html>
